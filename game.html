@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EcoSort Challenge - Revolutionary AI-powered educational game for waste sorting. Features multiple game modes, achievements, multiplayer, voice commands, and real environmental impact tracking. Perfect for climate awareness and sustainability education.">
+  <meta name="keywords" content="waste sorting, recycling, environment, education, game, AI, sustainability, climate change, startup, eco-friendly, green technology">
+  <meta name="author" content="EcoSort Challenge - Climate Education Startup">
+  <meta property="og:title" content="EcoSort Challenge - AI Waste Sorting Game">
+  <meta property="og:description" content="Revolutionary educational game teaching proper waste sorting with AI, multiplayer modes, and real environmental impact tracking.">
+  <meta property="og:type" content="website">
+  <title>EcoSort Challenge - AI-Powered Waste Sorting Game | Climate Education Platform</title>
+  
+  <!-- Preload Critical Resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Critical CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="main.css">
+  
+  <!-- PWA Support -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#10b981">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-content">
+      <div class="logo">🌍</div>
+      <h2>EcoSort Challenge</h2>
+      <div class="loading-bar">
+        <div class="loading-progress"></div>
+      </div>
+      <p class="loading-text">Loading eco-friendly game...</p>
+    </div>
+  </div>
+
+  <!-- Background Effects -->
+  <div class="background-effects">
+    <div class="background-particles" id="backgroundParticles"></div>
+    <div class="ambient-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="main-nav" id="mainNav">
+    <div class="nav-container">
+      <div class="nav-brand" onclick="uiManager?.showPage('home')" style="cursor: pointer;">
+        <span class="brand-icon">🌍</span>
+        <h1>EcoSort Challenge</h1>
+      </div>
+      
+      <div class="nav-menu" id="navMenu">
+        <a href="#home" class="nav-link active" data-page="home">
+          <i class="bi bi-house-fill"></i>
+          <span>Home</span>
+        </a>
+        <a href="#game" class="nav-link" data-page="game">
+          <i class="bi bi-controller"></i>
+          <span>Play</span>
+        </a>
+        <a href="#profile" class="nav-link" data-page="profile">
+          <i class="bi bi-person-fill"></i>
+          <span>Profile</span>
+        </a>
+        <a href="#achievements" class="nav-link" data-page="achievements">
+          <i class="bi bi-trophy-fill"></i>
+          <span>Achievements</span>
+        </a>
+        <a href="#learn" class="nav-link" data-page="learn">
+          <i class="bi bi-book-fill"></i>
+          <span>Learn</span>
+        </a>
+        <a href="#settings" class="nav-link" data-page="settings">
+          <i class="bi bi-gear-fill"></i>
+          <span>Settings</span>
+        </a>
+      </div>
+      
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark/light theme">
+          <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <button class="audio-toggle" id="audioToggle" title="Toggle audio">
+          <i class="bi bi-volume-up-fill"></i>
+        </button>
+        <button class="nav-toggle" id="navToggle" title="Toggle navigation">
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    
+    <!-- Home Page -->
+    <section class="page active" id="homePage">
+      <div class="hero-section">
+        <div class="hero-content">
+          <h1 class="hero-title">🏆 Learn Waste Sorting Through Play</h1>
+          <p class="hero-subtitle">Revolutionary AI-powered educational game for climate awareness • <strong>Leading EdTech Platform</strong> • Master environmental responsibility through interactive gameplay</p>
+          <div class="startup-badge">
+            <span class="badge-text">🌱 CLIMATE EDUCATION PLATFORM</span>
+          </div>
+          
+          <div class="hero-stats">
+            <div class="stat-card">
+              <div class="stat-number" id="totalItemsSorted">0</div>
+              <div class="stat-label">Items Sorted</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="co2Saved">0</div>
+              <div class="stat-label">kg CO₂ Saved</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="treesSaved">0</div>
+              <div class="stat-label">Trees Saved</div>
+            </div>
+          </div>
+          
+          <div class="hero-actions">
+            <button class="btn btn-primary btn-large" id="playNowBtn">
+              <i class="bi bi-play-fill"></i>
+              Play Now
+            </button>
+            <button class="btn btn-secondary btn-large" id="learnMoreBtn">
+              <i class="bi bi-book"></i>
+              Learn More
+            </button>
+          </div>
+        </div>
+        
+        <div class="hero-visual">
+          <div class="floating-items">
+            <div class="float-item" style="--delay: 0s;">🍌</div>
+            <div class="float-item" style="--delay: 0.5s;">♻️</div>
+            <div class="float-item" style="--delay: 1s;">🔋</div>
+            <div class="float-item" style="--delay: 1.5s;">📦</div>
+            <div class="float-item" style="--delay: 2s;">🥫</div>
+            <div class="float-item" style="--delay: 2.5s;">🌱</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="features-section">
+        <h2>Why EcoSort Challenge?</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🎮</div>
+            <h3>Engaging Gameplay</h3>
+            <p>Multiple game modes from beginner-friendly to expert challenges</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📚</div>
+            <h3>Educational Content</h3>
+            <p>Learn real environmental facts while playing</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🏆</div>
+            <h3>Achievement System</h3>
+            <p>Unlock achievements and track your progress</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌍</div>
+            <h3>Environmental Impact</h3>
+            <p>See your real-world environmental contribution</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Game Page -->
+    <section class="page" id="gamePage">
+      <div class="game-header">
+        <h1>🎮 Play EcoSort Challenge</h1>
+        
+        <!-- Game Mode Selector -->
+        <div class="game-mode-section">
+          <label for="gameModeSelect">Choose Game Mode:</label>
+          <select id="gameModeSelect" class="mode-select">
+            <option value="normal">🌱 Eco Learner (90s) - AI-guided learning mode for beginners</option>
+            <option value="speed">⚡ Lightning Sort (45s) - High-speed challenge with bonus multipliers</option>
+            <option value="precision">🎯 Perfect Precision (120s) - Zero-mistake challenge mode</option>
+            <option value="survival">🛡️ Eco Survivor (∞) - Endless waves with increasing difficulty</option>
+            <option value="blitz">💥 Waste Blitz (30s) - Intense rapid-fire sorting challenge</option>
+            <option value="zen">🧘 Zen Garden (∞) - Mindful, peaceful learning experience</option>
+            <option value="challenge">🏆 Daily Challenge (60s) - Special AI-generated objectives</option>
+          </select>
+        </div>
+
+        <!-- Game Stats -->
+        <div class="game-stats" id="gameStats">
+          <div class="stat-item">
+            <div class="stat-label">Score</div>
+            <div class="stat-value" id="gameScore">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Level</div>
+            <div class="stat-value" id="gameLevel">1</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Lives</div>
+            <div class="stat-value" id="gameLives">3</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Time</div>
+            <div class="stat-value" id="gameTime">90</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Streak</div>
+            <div class="stat-value" id="gameStreak">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Accuracy</div>
+            <div class="stat-value" id="gameAccuracy">0%</div>
+          </div>
+        </div>
+        
+        <!-- Professional Instructions -->
+        <div class="startup-instructions">
+          <h3>🎮 How to Play</h3>
+          <div class="instructions-grid">
+            <div class="instruction-item">
+              <span class="instruction-number">1</span>
+              <div class="instruction-content">
+                <strong>Select Items:</strong> Click on any of the 3 waste items to select it
+              </div>
+            </div>
+            <div class="instruction-item">
+              <span class="instruction-number">2</span>
+              <div class="instruction-content">
+                <strong>Sort Correctly:</strong> Click the correct bin or use keyboard (1, 2, 3)
+              </div>
+            </div>
+            <div class="instruction-item">
+              <span class="instruction-number">3</span>
+              <div class="instruction-content">
+                <strong>Build Combos:</strong> Chain correct sorts for bonus points and multipliers
+              </div>
+            </div>
+            <div class="instruction-item">
+              <span class="instruction-number">4</span>
+              <div class="instruction-content">
+                <strong>Explore Features:</strong> Try voice commands, multiplayer, quiz mode, and AR!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Game Controls -->
+        <div class="game-controls">
+          <button id="startBtn" class="btn btn-primary btn-large btn-pulse">
+            <i class="bi bi-play-fill"></i> Start Game
+          </button>
+          <button id="pauseBtn" class="btn btn-warning btn-large" style="display: none;">
+            <i class="bi bi-pause-fill"></i> Pause
+          </button>
+          <button id="resetBtn" class="btn btn-secondary btn-large">
+            <i class="bi bi-arrow-clockwise"></i> Reset Game
+          </button>
+          <div class="demo-note">
+            <p>💫 <strong>Full Platform Demo:</strong> Explore all features - multiplayer, voice commands, AR mode, achievements, and educational content!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Power-ups Section -->
+      <div class="power-ups-section" id="powerUpsSection" style="display: none;">
+        <h3>⚡ Power-Ups</h3>
+        <div class="power-ups-grid" id="powerUpsGrid">
+          <!-- Power-ups populated by JavaScript -->
+        </div>
+      </div>
+
+        <!-- Game Area -->
+        <div class="game-area">
+          <!-- Drag Instructions -->
+          <div class="drag-instructions" id="dragInstructions" style="display: none;">
+            <p>💆 <strong>How to play:</strong></p>
+            <p>📱 <strong>Mobile:</strong> Touch and drag items to bins</p>
+            <p>🖥️ <strong>Desktop:</strong> Click to select, then click bin OR drag and drop</p>
+          </div>
+          
+          <!-- Current Items Container -->
+          <div class="current-items-container" id="currentItemsContainer">
+            <!-- Items populated by JavaScript -->
+          </div>
+        
+        <!-- Bins Container -->
+        <div class="bins-container">
+          <div class="bin organic-bin" data-type="Organic">
+            <div class="bin-icon"><i class="bi bi-tree-fill"></i></div>
+            <h3 class="bin-label">Organic</h3>
+            <p class="bin-description">Food waste, plants, compostable items</p>
+            <div class="bin-shortcut">Press 1</div>
+          </div>
+          <div class="bin recyclable-bin" data-type="Recyclable">
+            <div class="bin-icon"><i class="bi bi-recycle"></i></div>
+            <h3 class="bin-label">Recyclable</h3>
+            <p class="bin-description">Paper, glass, plastic, metal items</p>
+            <div class="bin-shortcut">Press 2</div>
+          </div>
+          <div class="bin hazardous-bin" data-type="Hazardous">
+            <div class="bin-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+            <h3 class="bin-label">Hazardous</h3>
+            <p class="bin-description">Batteries, chemicals, e-waste</p>
+            <div class="bin-shortcut">Press 3</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Environmental Impact -->
+      <div class="environmental-section" id="environmentalSection" style="display: none;">
+        <h3>🌍 Environmental Impact</h3>
+        <div class="environmental-stats" id="environmentalStats">
+          <!-- Stats populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Profile Page -->
+    <section class="page" id="profilePage">
+      <div class="profile-header">
+        <h1>👤 Your Profile</h1>
+      </div>
+      
+      <div class="profile-content">
+        <div class="profile-card">
+          <div class="profile-avatar">
+            <span id="profileAvatar">🌱</span>
+          </div>
+          <div class="profile-info">
+            <h2 id="playerName">Eco Warrior</h2>
+            <p class="profile-title" id="playerTitle">Beginner Sorter</p>
+            <div class="experience-bar">
+              <div class="xp-progress" id="xpProgress"></div>
+            </div>
+            <span class="xp-text" id="xpText">Level 1 - 0/100 XP</span>
+          </div>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stats-card">
+            <h3>🎮 Game Statistics</h3>
+            <div class="stats-list">
+              <div class="stat-row">
+                <span>Total Games Played:</span>
+                <span id="totalGames">0</span>
+              </div>
+              <div class="stat-row">
+                <span>Best Score:</span>
+                <span id="bestScore">0</span>
+              </div>
+              <div class="stat-row">
+                <span>Best Streak:</span>
+                <span id="bestStreak">0</span>
+              </div>
+              <div class="stat-row">
+                <span>Average Accuracy:</span>
+                <span id="avgAccuracy">0%</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="stats-card">
+            <h3>🌍 Environmental Impact</h3>
+            <div class="stats-list">
+              <div class="stat-row">
+                <span>Items Sorted:</span>
+                <span id="totalItemsSortedProfile">0</span>
+              </div>
+              <div class="stat-row">
+                <span>CO₂ Reduced:</span>
+                <span id="co2Reduced">0 kg</span>
+              </div>
+              <div class="stat-row">
+                <span>Trees Saved:</span>
+                <span id="treesSavedProfile">0</span>
+              </div>
+              <div class="stat-row">
+                <span>Water Saved:</span>
+                <span id="waterSaved">0L</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Achievements Page -->
+    <section class="page" id="achievementsPage">
+      <div class="achievements-header">
+        <h1>🏆 Achievements</h1>
+        <div class="achievement-filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="basic">Basic</button>
+          <button class="filter-btn" data-filter="skill">Skill</button>
+          <button class="filter-btn" data-filter="environmental">Environmental</button>
+          <button class="filter-btn" data-filter="special">Special</button>
+        </div>
+      </div>
+      
+      <div class="achievements-grid" id="achievementsGrid">
+        <!-- Achievements populated by JavaScript -->
+      </div>
+    </section>
+
+    <!-- Learn Page -->
+    <section class="page" id="learnPage">
+      <div class="learn-header">
+        <h1>📚 Learn About Waste Sorting</h1>
+      </div>
+      
+      <div class="learn-content">
+        <div class="learn-categories">
+          <div class="category-card organic-category">
+            <div class="category-icon">🌱</div>
+            <h3>Organic Waste</h3>
+            <p>Learn about composting and organic waste management</p>
+            <button class="btn btn-outline">Learn More</button>
+          </div>
+          <div class="category-card recyclable-category">
+            <div class="category-icon">♻️</div>
+            <h3>Recyclable Materials</h3>
+            <p>Discover what can be recycled and how</p>
+            <button class="btn btn-outline">Learn More</button>
+          </div>
+          <div class="category-card hazardous-category">
+            <div class="category-icon">⚠️</div>
+            <h3>Hazardous Waste</h3>
+            <p>Safe disposal of dangerous materials</p>
+            <button class="btn btn-outline">Learn More</button>
+          </div>
+        </div>
+        
+        <div class="facts-section">
+          <h2>🌍 Environmental Facts</h2>
+          <div class="facts-grid" id="factsGrid">
+            <!-- Facts populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Settings Page -->
+    <section class="page" id="settingsPage">
+      <div class="settings-header">
+        <h1>⚙️ Settings</h1>
+      </div>
+      
+      <div class="settings-content">
+        <div class="settings-group">
+          <h3>🔊 Audio Settings</h3>
+          <div class="setting-item">
+            <label for="masterVolume">Master Volume</label>
+            <input type="range" id="masterVolume" min="0" max="100" value="70">
+            <span class="volume-value">70%</span>
+          </div>
+          <div class="setting-item">
+            <label for="sfxVolume">Sound Effects</label>
+            <input type="range" id="sfxVolume" min="0" max="100" value="80">
+            <span class="volume-value">80%</span>
+          </div>
+          <div class="setting-item">
+            <label for="musicVolume">Background Music</label>
+            <input type="range" id="musicVolume" min="0" max="100" value="50">
+            <span class="volume-value">50%</span>
+          </div>
+        </div>
+        
+        <div class="settings-group">
+          <h3>🎮 Game Settings</h3>
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="showHints" checked>
+              Show Hints
+            </label>
+          </div>
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="enableParticles" checked>
+              Particle Effects
+            </label>
+          </div>
+          <div class="setting-item">
+            <label>
+              <input type="checkbox" id="autoSave" checked>
+              Auto Save Progress
+            </label>
+          </div>
+          <div class="setting-item">
+            <label for="difficulty">Difficulty</label>
+            <select id="difficulty">
+              <option value="easy">Easy</option>
+              <option value="normal" selected>Normal</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="settings-group">
+          <h3>💾 Data Management</h3>
+          <div class="setting-actions">
+            <button class="btn btn-secondary" id="exportData">
+              <i class="bi bi-download"></i>
+              Export Progress
+            </button>
+            <button class="btn btn-secondary" id="importData">
+              <i class="bi bi-upload"></i>
+              Import Progress
+            </button>
+            <button class="btn btn-danger" id="resetAllData">
+              <i class="bi bi-trash"></i>
+              Reset All Data
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating UI Elements -->
+  <div id="gameMessages" class="game-messages"></div>
+  <div id="notifications" class="notifications-container"></div>
+  
+  <!-- Educational Popup -->
+  <div id="educationalPopup" class="educational-popup" style="display: none;">
+    <div class="popup-content">
+      <div class="popup-header">
+        <h3>📚 Did You Know?</h3>
+        <button class="close-btn" id="closePopup">✕</button>
+      </div>
+      <div class="popup-body" id="popupBody">
+        <!-- Content populated by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Game Over Modal -->
+  <div id="gameOverModal" class="game-over-modal" style="display: none;">
+    <div class="modal-content">
+      <h2>🎮 Game Complete!</h2>
+      <div id="gameOverStats" class="game-over-stats">
+        <!-- Stats populated by JavaScript -->
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="playAgainBtn">Play Again</button>
+        <button class="btn btn-secondary" id="changeModeBtn">Change Mode</button>
+        <button class="btn btn-outline" id="shareScoreBtn">Share Score</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="game-engine.js"></script>
+  <script src="ui-manager.js"></script>
+  <script src="particle-system.js"></script>
+  <script src="audio-manager.js"></script>
+  <script src="data-manager.js"></script>
+  <script src="advanced-features.js"></script>
+  <script src="main.js"></script>
+  
+</body>
+</html>

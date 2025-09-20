@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Items</title>
+    <style>
+        .waste-item {
+            border: 2px solid #ccc;
+            padding: 20px;
+            margin: 10px;
+            cursor: pointer;
+            background: #f0f0f0;
+        }
+        .waste-item.selected {
+            border-color: #10b981;
+            background: #dcfce7;
+        }
+        .current-items-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .debug-info {
+            background: #f5f5f5;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Item Selection Debug</h1>
+    
+    <div class="debug-info">
+        <h3>Current Items:</h3>
+        <div id="itemsList">No items generated yet</div>
+    </div>
+    
+    <div class="debug-info">
+        <h3>Selected Item:</h3>
+        <div id="selectedItem">None selected</div>
+    </div>
+    
+    <div class="current-items-container"></div>
+    
+    <button onclick="testGame()">Start Test Game</button>
+    <button onclick="debugItems()">Debug Current Items</button>
+
+    <script src="game-engine.js"></script>
+    <script>
+        function testGame() {
+            if (window.game) {
+                window.game.startGame('time_trial');
+                updateDebugInfo();
+            } else {
+                console.log('Game not initialized yet');
+            }
+        }
+        
+        function debugItems() {
+            if (window.game) {
+                console.log('Current items:', window.game.currentItems);
+                console.log('Selected item:', window.game.selectedItem);
+                updateDebugInfo();
+            }
+        }
+        
+        function updateDebugInfo() {
+            const itemsList = document.getElementById('itemsList');
+            const selectedItem = document.getElementById('selectedItem');
+            
+            if (window.game && window.game.currentItems) {
+                itemsList.innerHTML = window.game.currentItems.map(item => 
+                    `<div>ID: ${item.uniqueId}, Name: ${item.name}, Type: ${item.type}</div>`
+                ).join('');
+                
+                if (window.game.selectedItem) {
+                    selectedItem.innerHTML = `ID: ${window.game.selectedItem.uniqueId}, Name: ${window.game.selectedItem.name}`;
+                } else {
+                    selectedItem.innerHTML = 'None selected';
+                }
+            }
+        }
+        
+        // Auto-update debug info every 2 seconds
+        setInterval(updateDebugInfo, 2000);
+    </script>
+</body>
+</html>
